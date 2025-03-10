@@ -1,0 +1,35 @@
+{% include 'public_header.html' %}
+
+<center><h1 style="margin-top: 50px;">Login Here</h1></center>
+    <form method="post">
+        <table align="center" >
+            <tr>
+                <td><input type="text" name="uname" placeholder="Username" class="form-control" required></td>
+            </tr>
+            <tr>
+                <td><input type="password" name="psw" placeholder="Password" class="form-control" required></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" name="submit" class="btn btn-success"></td>
+            </tr>
+        </table>
+    </form>
+    
+
+
+    {% include 'footer.html' %}
+
+    <style>
+        td{
+            padding: 10px;
+
+        }
+
+        input{
+            text-align: center;
+        }
+    </style>
+ 
+   
+   
+ 

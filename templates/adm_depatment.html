@@ -1,0 +1,45 @@
+{% include 'admin_header.html'%}
+
+
+<center>
+    <h1 style="margin-top: 100px;">Add Departments</h1>
+
+    <form method="post">
+        <table style="margin-top: 50px;">
+            <tr>
+                <td><input type="text" name="dep" class="form-control" required></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" name="submit" class="btn btn-primary"></td>
+            </tr>
+        </table>
+    </form>
+  
+</center>
+<center>
+    <h1 style="margin-top: 50px;">Departments</h1>
+    <table class="table" style="margin-top: 50px;width:400px">
+        <thead class="table-dark">
+
+            <tr>
+                <th>Department Name</th>
+          
+            </tr>
+        </thead>
+        
+        {% for i in a %}
+        
+        <tr>
+            <td>{{i.department_name}}</td>
+           
+        </tr>
+        {% endfor %}
+    </table>
+</center>
+{% include 'footer.html'%}
+
+<style>
+    th,td{
+        text-align: center;
+    }
+</style>

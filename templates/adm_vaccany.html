@@ -1,0 +1,36 @@
+{% include 'admin_header.html'%}
+
+
+<center>
+    <h1 style="margin-top: 90px;">Job Vaccancy</h1>
+    <table class="table" style="margin-top: 30px;">
+        <thead class="table-dark">
+
+        
+        <tr>
+            <th>Job Title</th>
+            <th>Job description</th>
+            <th>Required Skill</th>
+            <th></th>
+       </tr>
+    </thead>
+        {% for i in a %}
+        
+        <tr>
+      
+            <td>{{i.job_title}}</td>
+            <td>{{i.job_description}}</td>
+            <td>{{i.required_skill}}</td>
+            <td><a href="/adm_request/{{i.pk}}">Request Status</a></td>
+          
+        </tr>
+        {% endfor %}
+    </table>
+</center>
+{% include 'footer.html'%}
+
+<style>
+    th,td{
+        text-align: center;
+    }
+</style>

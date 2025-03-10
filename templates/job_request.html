@@ -1,0 +1,48 @@
+{% load static %}
+{% include 'company_header.html' %}
+
+<center>
+    <h1 style="margin-top: 100px;">Application Request</h1>
+    <table class="table" style="margin-top: 50px;">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Resume Upload</th>
+            <th>Department</th>
+            <th>Status</th>
+        </tr>
+        {% for i in a %}
+        <tr>
+            <td>{{ i.student.fname }}</td>
+            <td>{{ i.student.lname }}</td>
+            <td>{{ i.student.email }}</td>
+            <td>{{ i.student.phone }}</td>
+            <td>
+                {% if i.student.resume_upload %}
+                    <a href="{% static 'static/' %}{{ i.student.resume_upload }}" target="_blank">View</a>
+                {% else %}
+                    No file uploaded
+                {% endif %}
+            </td>
+            <td>{{ i.student.department.department_name }}</td>
+            <td>{{ i.application_status }}</td>
+
+            {% if i.application_status == 'pending' %}
+            <td><a href="/accept_req/{{i.pk}}">Accept</a></td>
+            <td><a href="/reject_req/{{i.pk}}">Reject</a></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</center>
+
+{% include 'footer.html' %}
+
+
+<style>
+    th,td{
+        text-align: center;
+    }
+</style>

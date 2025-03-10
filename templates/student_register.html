@@ -1,0 +1,68 @@
+{% include 'public_header.html'%}
+
+<center>
+    <h1 style="margin-top: 100px;">Student Registration </h1>
+    <form method="post" enctype="multipart/form-data">
+        <table style="margin-top: 50px;">
+            <tr>
+                <td><input type="text" name="fname" placeholder="First Name" class="form-control" required pattern="[a-zA-Z ]+" title="Only Alphabets Are Allowed"></td>
+            </tr>
+            <tr>
+
+            </tr>
+                <td><input type="text" name="lname" placeholder="Last Name" class="form-control" required pattern="[a-zA-Z ]+" title="Only Alphabets Are Allowed"></td>
+            </tr>
+
+            <tr>
+
+            </tr>
+                <td><input type="email" name="email" placeholder="Email" class="form-control" required  title="Enter a proper mail format"></td>
+            </tr>
+
+            <tr>
+
+            </tr>
+                <td><input type="text" name="phone" placeholder="Phone" class="form-control" required pattern="[0-9]{10}" title="Only 10 Digits Are Allowed"></td>
+            </tr>
+
+          
+
+
+            </tr>
+                <td><input type="file" name="resume" placeholder="Upload Resume" class="form-control" required  title="Only Pdf or Doc Files are Allowed"></td>
+            </tr>
+
+          
+
+
+            </tr>
+                <td><select name="dep" required class="form-control">
+                    <option value="">Select Department</option>
+                    {% for i in a %}
+                    <option value="{{i.pk}}">{{i.department_name}}</option>
+                    {% endfor %}
+
+                </select></td>
+            </tr>
+            <tr>
+                <td><input type="text" name="uname" placeholder="Username" class="form-control" required></td>
+            </tr>
+            <tr>
+
+            </tr>
+                <td><input type="password" name="psw" placeholder="Password" class="form-control" required></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" name="submit" class="btn btn-success"></td>
+            </tr>
+        </table>
+    </form>
+</center>
+
+{% include 'footer.html'%}
+
+<style>
+    input,select{
+        text-align: center;
+    }
+</style>

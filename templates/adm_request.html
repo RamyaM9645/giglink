@@ -1,0 +1,42 @@
+{% include 'admin_header.html'%}
+
+
+<center>
+    <h1 style="margin-top: 100px;">Application Request</h1>
+    <table class="table" style="margin-top: 50px;">
+        <thead class="table-dark">
+
+       
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Resume Upload</th>
+            <th>Department</th>
+            <th>Status</th>
+      
+        </tr>
+    </thead>
+        {% for i in a %}
+        
+        <tr>
+            <td>{{i.student.fname}}</td>
+            <td>{{i.student.lname}}</td>
+            <td>{{i.student.email}}</td>
+            <td>{{i.student.phone}}</td>
+            <td>{{i.student.resume_upload}}</td>
+            <td>{{i.student.department.department_name}}</td>
+            <td>{{i.application_status}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</center>
+{% include 'footer.html'%}
+
+
+<style>
+    th,td{
+        text-align: center;
+    }
+</style>

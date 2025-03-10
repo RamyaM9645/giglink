@@ -1,0 +1,44 @@
+{% include 'student_header.html'%}
+
+
+
+<center>
+    <h1 style="margin-top: 100px;">Companies</h1>
+    <table class="table" style="margin-top: 50px;">
+        <thead class="table-dark">
+            <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Place</th>
+            <th>Location</th>
+            <th>Industry Type</th>
+            <th>Company Description</th>
+            <th></th>
+        </tr>
+    </thead>
+        {% for i in a %}
+        
+        <tr>
+            <td>{{i.company_name}}</td>
+            <td>{{i.email}}</td>
+            <td>{{i.phone}}</td>
+            <td>{{i.place}}</td>
+            <td>{{i.location_details}}</td>
+            <td>{{i.industry_type}}</td>
+            <td>{{i.company_description}}</td>
+            <td><a href="/std_vaccancy/{{i.company_id}}">Vaccancy</a></td>
+
+           
+        </tr>
+        {% endfor %}
+    </table>
+</center>
+{% include 'footer.html'%}
+
+
+<style>
+    th,td{
+        text-align: center;
+    }
+</style>

@@ -1,0 +1,64 @@
+{% include 'public_header.html'%}
+
+
+
+
+<center>
+
+    <h1>Company  Register</h1>
+
+    <form method="post">
+        <table>
+            <tr>
+                <td><input type="text" name="cname" class="form-control" required placeholder="Company Name" pattern="[a-zA-Z ]+" title="Only Alphabets Are Allowed"></td>
+            </tr>
+            <tr>
+                <td><input type="email" name="email" class="form-control" required placeholder="Email" title="Enter a proper mail format"></td>
+            </tr>
+            <tr>
+                <td><input type="text" name="phone" class="form-control" required placeholder="Phone" pattern="[0-9]{10}" title="Only 10 Digits Are Allowed"></td>
+            </tr>
+            <tr>
+                <td><input type="text" name="place" class="form-control" required placeholder="Place" pattern="[a-zA-Z ]+" title="Only Alphabets Are Allowed"></td>
+
+            </tr>
+            <tr>
+                <td><textarea name="location" class="form-control" placeholder="Location Details" required></textarea></td>
+            </tr>
+            <tr>
+
+            </tr>
+                <td><input type="text" name="itype" class="form-control" required placeholder="Industry Type" pattern="[a-zA-Z ]+" title="Only Alphabets Are Allowed"></td>
+
+            </tr>
+
+            </tr>
+                <td><textarea name="cdes" class="form-control" required placeholder="Description" ></textarea></td>
+
+            </tr>
+            <tr>
+                <td><input type="text" name="uname" placeholder="Username" class="form-control" required></td>
+            </tr>
+            <tr>
+
+            </tr>
+                <td><input type="password" name="psw" placeholder="Password" class="form-control" required></td>
+            </tr>
+            <tr>
+                <td colspan="2" align='center'><input type="submit" name="submit" class="btn btn-success" value="Register" ></td>
+            </tr>
+        </table>
+    </form>
+</center>
+
+
+
+
+{% include 'footer.html'%}
+
+
+<style>
+    th,td,textarea,input{
+        text-align: center;
+    }
+</style>

@@ -1,0 +1,47 @@
+{% include 'student_header.html' %}
+
+{% load static %}  
+
+<center>
+    <h1 style="margin-top: 100px;">Profile</h1>
+    {% if a %}
+    <table class="table" style="margin-top: 50px;">
+        <thead class="table-dark">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Resume Upload</th>
+            <th>Department</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in a %}
+        <tr>
+            <td>{{ i.fname }}</td>
+            <td>{{ i.lname }}</td>
+            <td>{{ i.email }}</td>
+            <td>{{ i.phone }}</td>
+            <td>
+                {% if i.resume_upload %}
+                    <a href="{% static 'static/' %}{{ i.resume_upload }}" download>Download Resume</a>
+                {% else %}
+                    No Resume Uploaded
+                {% endif %}
+            </td>
+            <td>{{ i.department.department_name }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+    {% endif %}
+</center>
+
+{% include 'footer.html' %}
+
+<style>
+    th, td {
+        text-align: center;
+    }
+</style>

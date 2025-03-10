@@ -1,0 +1,39 @@
+{% include 'student_header.html'%}
+
+<center>
+    <h1 style="margin-top: 100px;">Job Vaccancy</h1>
+    <table class="table" style="margin-top: 50px;">
+        
+        <thead class="table-dark">
+
+            <tr>
+                <th>Job Title</th>
+                <th>Job description</th>
+                <th>Required Skill</th>
+           </tr>
+        </thead>
+        
+        {% for i in a %}
+        
+        <tr>
+      
+            <td>{{i.job_title}}</td>
+            <td>{{i.job_description}}</td>
+            <td>{{i.required_skill}}</td>
+            <td><a href="/std_request/{{i.pk}}">Apply</a></td>
+          
+        </tr>
+        {% endfor %}
+    </table>
+</center>
+
+{% include 'footer.html'%}
+
+<style>
+    th,td{
+        text-align: center;
+    }
+    td{
+        vertical-align: middle;
+    }
+</style>

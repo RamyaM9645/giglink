@@ -1,0 +1,62 @@
+{% include 'company_header.html'%}
+
+<center>
+    <h1 style="margin-top: 100px;">Manage Vaccancy</h1>
+
+    <form method="post">
+        <table style="margin-top: 50px;">
+            <tr>
+                <td><input type="text" name="title" placeholder="Title" class="form-control" required ></td>
+            </tr>
+            <tr>
+                <td><input type="text" name="des" placeholder="Description" class="form-control" required></td>
+            </tr>
+            <tr>
+                <td><textarea name="skill" required placeholder="Required Skill" class="form-control" id=""></textarea></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" name="submit" class="btn btn-primary"></td>
+            </tr>
+        </table>
+
+    </form>
+</center>
+
+
+<center>
+   
+    <table class="table" style="margin-top: 50px;">
+        <thead class="table-dark">
+
+            <tr>
+                <th>Job Title</th>
+                <th>Job description</th>
+                <th>Required Skill</th>
+                <th></th>
+           </tr>
+        </thead>
+        
+        {% for i in a %}
+        
+        <tr>
+      
+            <td>{{i.job_title}}</td>
+            <td>{{i.job_description}}</td>
+            <td>{{i.required_skill}}</td>
+            <td><a href="/job_request/{{i.pk}}">Request</a></td>
+          
+          
+        </tr>
+        {% endfor %}
+    </table>
+</center>
+
+
+{% include 'footer.html'%}
+
+
+<style>
+    th,td,input,textarea{
+        text-align: center;
+    }
+</style>
