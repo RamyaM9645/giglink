@@ -74,17 +74,23 @@ WSGI_APPLICATION = 'gig.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'giglink',
+#         'USER':'root',
+#         'PASSWORD':'12345',
+#         'PORT':'3306',
+#         'HOST' : 'localhost'
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'giglink',
-        'USER':'root',
-        'PASSWORD':'12345',
-        'PORT':'3307',
-        'HOST' : 'localhost'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

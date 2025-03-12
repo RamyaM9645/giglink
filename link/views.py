@@ -18,7 +18,7 @@ def home(request):
 
 
 def login(request):
- if request.method=='POST':
+    if request.method=='POST':
         uname=request.POST['uname']
         psw=request.POST['psw']
         
@@ -59,7 +59,7 @@ def login(request):
             return HttpResponse("<script>alert('Login Failed...!!!!');window.location='login';</script>")
     
 
- return render(request,'login.html')
+    return render(request,'login.html')
 
 
 

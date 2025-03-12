@@ -1,3 +1,7 @@
 from django.contrib import admin
+from django.apps import apps
 
-# Register your models here.
+myadmin_models = apps.get_app_config('link').get_models()
+
+for model in myadmin_models:
+    admin.site.register(model)
