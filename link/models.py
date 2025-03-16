@@ -6,6 +6,9 @@ class log(models.Model):
     username=models.CharField(max_length=225)
     password=models.CharField(max_length=225)
     usertype=models.CharField(max_length=225)
+
+    def __str__(self):
+        return f"{self.username} - {self.password} - {self.usertype}"
     
     
 class department(models.Model):

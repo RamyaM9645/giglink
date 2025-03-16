@@ -17,7 +17,7 @@ def home(request):
     return render(request,'home.html')
 
 
-def login(request):
+def login_view(request):
     if request.method=='POST':
         uname=request.POST['uname']
         psw=request.POST['psw']
@@ -30,7 +30,7 @@ def login(request):
             lid=request.session['login_id']
             
             if lg.usertype=='admin':
-                return HttpResponse("<script>alert('Login Successfully');window.location='adm';</script>")
+                return HttpResponse("<script>alert('Login Successfully');window.location='/adm';</script>")
             
             
             elif lg.usertype=='company':
@@ -39,7 +39,7 @@ def login(request):
                     
                     request.session['cid']=q.pk
                     
-                    return HttpResponse("<script>alert('Login Successfully');window.location='chome';</script>")
+                    return HttpResponse("<script>alert('Login Successfully');window.location='/chome';</script>")
                 
             elif lg.usertype=='student':
                 q=student.objects.get(login_id=lid)
@@ -49,7 +49,7 @@ def login(request):
                    
                     
                     
-                    return HttpResponse("<script>alert('Login Successfully');window.location='shome';</script>")
+                    return HttpResponse("<script>alert('Login Successfully');window.location='/shome';</script>")
                 
             
             
