@@ -38,6 +38,86 @@ class student(models.Model):
     resume_upload=models.FileField(max_length=225)
     department=models.ForeignKey(department,on_delete=models.CASCADE)
 
+
+
+
+class Freelance(models.Model):
+    class Meta:
+        verbose_name_plural = 'freelance User Registeration'
+
+    def __str__(self):
+        return self.name
+    
+    login=models.ForeignKey(log,on_delete=models.CASCADE)
+    name = models.CharField(max_length=225)
+    email = models.EmailField(max_length=225)
+    phone = models.CharField(max_length=225)
+    company = models.CharField(max_length=225)
+    location = models.CharField(max_length=225)
+
+
+
+class FreelanceJobs(models.Model):
+    class Meta:
+        verbose_name_plural = 'freelance Jobs'
+
+    job_title = models.CharField(max_length=225)
+    job_description = models.CharField(max_length=225)
+    required_skill = models.CharField(max_length=225)
+    expected_duration = models.CharField(max_length=225)
+    payment = models.CharField(max_length=225)
+    payment_type = models.CharField(max_length=225,choices = (
+
+        ("One Time", "One Time"),
+        ("Milestone Based", "Milestone Based"),
+        ("Hourly", "Hourly"),
+    
+    ))
+    freelance = models.ForeignKey(Freelance, on_delete=models.CASCADE)
+
+
+
+
+
+
+class Parttime(models.Model):
+    class Meta:
+        verbose_name_plural = 'Partime User Registeration'
+
+    def __str__(self):
+        return self.name
+    
+    login=models.ForeignKey(log,on_delete=models.CASCADE)
+    name = models.CharField(max_length=225)
+    email = models.EmailField(max_length=225)
+    phone = models.CharField(max_length=225)
+    company = models.CharField(max_length=225)
+    location = models.CharField(max_length=225)
+
+
+
+class ParttimeJobs(models.Model):
+    class Meta:
+        verbose_name_plural = 'Parttime Jobs'
+
+    job_title = models.CharField(max_length=225)
+    job_description = models.CharField(max_length=225)
+    working_hours = models.CharField(max_length=225)
+    payment = models.CharField(max_length=225)
+    shift_timing = models.CharField(max_length=225,choices = (
+
+        ("Morning", "Morning"),
+        ("Evening", "Evening"),
+        ("Night", "Night"),
+        ("Flexible", "Flexible"),
+    
+    ))
+    parttime = models.ForeignKey(Parttime, on_delete=models.CASCADE)
+
+
+
+
+
   
 
 
@@ -55,6 +135,27 @@ class application_request(models.Model):
     job=models.ForeignKey(job_vaccany,on_delete=models.CASCADE)
     student=models.ForeignKey(student,on_delete=models.CASCADE)
     application_status=models.CharField(max_length=225)
+
+
+
+class Freelance_application_request(models.Model):
+    application_id=models.AutoField(primary_key=True)
+    job=models.ForeignKey(FreelanceJobs,on_delete=models.CASCADE)
+    student=models.ForeignKey(student,on_delete=models.CASCADE)
+    application_status=models.CharField(max_length=225)
+
+
+
+
+
+class Parttime_application_request(models.Model):
+    application_id=models.AutoField(primary_key=True)
+    job=models.ForeignKey(ParttimeJobs,on_delete=models.CASCADE)
+    student=models.ForeignKey(student,on_delete=models.CASCADE)
+    application_status=models.CharField(max_length=225)
+
+
+
 
 
 

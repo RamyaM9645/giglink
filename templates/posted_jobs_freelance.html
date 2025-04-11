@@ -1,0 +1,75 @@
+{% if page %}
+{% include 'student_header.html'%}
+{% else %}
+{% include 'freelance_header.html' %}
+{% endif %}
+{% load static %}
+
+<center>
+    <h1 style="margin-top: 100px;">Posted Jobs</h1>
+
+    <!-- Filtration Form -->
+    <form method="GET" style="margin-bottom: 20px;">
+        <input type="text" name="job_title" placeholder="Job Title" class="form-control"
+               value="{{ request.GET.job_title }}" style="width: 200px; display: inline-block;">
+        
+        <input type="text" name="required_skill" placeholder="Skill" class="form-control"
+               value="{{ request.GET.required_skill }}" style="width: 200px; display: inline-block;">
+        
+        <select name="payment_type" class="form-control" style="width: 200px; display: inline-block;">
+            <option value="">All Payment Types</option>
+            <option value="One Time" {% if request.GET.payment_type == "One Time" %}selected{% endif %}>One Time</option>
+            <option value="Milestone Based" {% if request.GET.payment_type == "Milestone Based" %}selected{% endif %}>Milestone Based</option>
+            <option value="Hourly" {% if request.GET.payment_type == "Hourly" %}selected{% endif %}>Hourly</option>
+        </select>
+
+        <button type="submit" class="btn btn-primary">Filter</button>
+        {% if page %}
+        <a href="/stu_freelance_jobs" class="btn btn-secondary">Reset</a>
+        {% else %}
+        <a href="/posted-jobs-freelance" class="btn btn-secondary">Reset</a>
+        {% endif %}
+    </form>
+
+    {% if freelance_jobs %}
+    <table class="table" style="margin-top: 20px;">
+        <thead class="table-dark">
+        <tr>
+            <th>Job Title</th>
+            <th>Job Description</th>
+            <th>Required Skill</th>
+            <th>Expected Duration</th>
+            <th>Payment</th>
+            <th>Payment Type</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for job in freelance_jobs %}
+        <tr>
+            <td>{{ job.job_title }}</td>
+            <td>{{ job.job_description }}</td>
+            <td>{{ job.required_skill }}</td>
+            <td>{{ job.expected_duration }}</td>
+            <td>{{ job.payment }}</td>
+            <td>{{ job.payment_type }}</td>
+            {% if freelance %}
+            <td><a href="/view-freelance-requests/{{ job.pk }}">Requests</a></td>
+            {% else %}
+            <td><a href="/std_freelance_request/{{ job.pk }}">Apply</a></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No jobs found.</p>
+    {% endif %}
+</center>
+
+{% include 'footer.html' %}
+
+<style>
+    th, td {
+        text-align: center;
+    }
+</style>

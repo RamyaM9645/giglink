@@ -8,7 +8,7 @@
 
        
         <tr>
-        
+            <th>Username</th>
             <th>Complaint</th>
             <th>Reply</th>
             <th>Date</th>
@@ -20,7 +20,7 @@
         {% for i in a %}
         
         <tr>
-      
+            <td>{{i.login.username}}</td>
             <td>{{i.complaint}}</td>
             <td>{{i.reply}}</td>
             <td>{{i.date}}</td>

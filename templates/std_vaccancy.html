@@ -12,18 +12,21 @@
                 <th>Required Skill</th>
            </tr>
         </thead>
-        
+        {% if a %}
         {% for i in a %}
-        
         <tr>
-      
-            <td>{{i.job_title}}</td>
-            <td>{{i.job_description}}</td>
-            <td>{{i.required_skill}}</td>
-            <td><a href="/std_request/{{i.pk}}">Apply</a></td>
-          
+            <td>{{ i.job_title }}</td>
+            <td>{{ i.job_description }}</td>
+            <td>{{ i.required_skill }}</td>
+            <td><a href="/std_request/{{ i.pk }}">Apply</a></td>
         </tr>
         {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="4">No Vacancy available Due to lack of skills..!</td>
+            </tr>
+        {% endif %}
+
     </table>
 </center>
 

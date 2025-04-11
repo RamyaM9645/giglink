@@ -35,7 +35,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\ramya\Downloads\giglinkk_project\Giglink\Giglink\venv"
+VIRTUAL_ENV="C:\Users\ramya\OneDrive\Desktop\main\giglink\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

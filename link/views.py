@@ -51,6 +51,20 @@ def login_view(request):
                     
                     return HttpResponse("<script>alert('Login Successfully');window.location='/shome';</script>")
                 
+            elif lg.usertype=='Freelancer':
+                q=Freelance.objects.get(login_id=lid)
+                if q:
+                    
+                    request.session['fid']=q.pk
+                    return HttpResponse("<script>alert('Login Successfully');window.location='/fhome';</script>")
+                
+            elif lg.usertype=='Parttime':
+                q=Parttime.objects.get(login_id=lid)
+                if q:
+                    
+                    request.session['pid']=q.pk
+                    return HttpResponse("<script>alert('Login Successfully');window.location='/phome';</script>")
+                
             
             
             
@@ -73,6 +87,18 @@ def adm(request):
 
 def shome(request):
     return render(request,'student.html')
+
+
+
+
+def fhome(request):
+    return render(request,'freelance_home.html')
+
+
+def phome(request):
+    return render(request,'partime_home.html')
+
+
 
 
 
@@ -118,9 +144,52 @@ def reject_stu(request,id):
 
 
 
+def accept_freelancers(request,id):
+    a=log.objects.get(login_id=id)
+    a.usertype='Freelancer'
+    a.save()
+    return HttpResponse("<script>alert('Accepted successfully');window.location='/adm-freelancers';</script>")
+
+def reject_freelancers(request,id):
+    a=log.objects.get(login_id=id)
+    a.usertype='rejected'
+    a.save()
+    return HttpResponse("<script>alert('Rejected successfully');window.location='/adm-freelancers';</script>")
+
+
+
+
+
+def accept_parttime(request,id):
+    a=log.objects.get(login_id=id)
+    a.usertype='Parttime'
+    a.save()
+    return HttpResponse("<script>alert('Accepted successfully');window.location='/adm-partime';</script>")
+
+def reject_parttime(request,id):
+    a=log.objects.get(login_id=id)
+    a.usertype='rejected'
+    a.save()
+    return HttpResponse("<script>alert('Rejected successfully');window.location='/adm-partime';</script>")
+
+
+
+
+
+
 def adm_student(request):
     a=student.objects.all()
     return render(request,'adm_student.html',{'a':a})
+
+
+def adm_freelancers(request):
+    a=Freelance.objects.all()
+    return render(request,'adm_freelancers.html',{'a':a})
+
+def adm_partime(request):
+    a=Parttime.objects.all()
+    return render(request,'admin_partime.html',{'a':a})
+
 
 
 
@@ -216,6 +285,21 @@ def job_request(request,id):
     return render(request,'job_request.html',{'a':a})
 
 
+def view_freelance_request(request,id):
+    a=Freelance_application_request.objects.filter(job_id=id)
+    return render(request,'view_freelance_request.html',{'a':a})
+
+
+def view_parttime_request(request,id):
+    a=Parttime_application_request.objects.filter(job_id=id)
+    return render(request,'view_parttime_request.html',{'a':a})
+
+
+
+
+
+
+
 def com_complaint(request):
     a=Complaint.objects.filter(login_id=request.session['login_id'])
     return render(request,'com_complaint.html',{'a':a})
@@ -253,6 +337,194 @@ def student_reg(request):
 
 
 
+
+def freelance_reg(request):
+    a=department.objects.all()
+    if request.method=='POST':
+        name=request.POST['name']
+        email=request.POST['email']
+        phone=request.POST['phone']
+        company=request.POST['company']
+        location = request.POST['location']
+        uname=request.POST['uname']
+        psw=request.POST['psw']
+        
+        tp=log.objects.filter(username=uname)
+        
+        if tp:
+            return HttpResponse("<script>alert('Username Already Exist');window.location='/freelance-reg'</script>")
+        else:
+            z=log(username=uname,password=psw,usertype='pending')
+            z.save()
+            
+            t=Freelance(name=name,phone=phone,email=email,company=company,location=location,login=z)
+            t.save()
+            return HttpResponse("<script>alert('Registered successfully');window.location='/login';</script>")
+ 
+  
+    return render(request,'freelance_register.html',{'a':a})
+
+
+
+
+
+
+def freelance_job_post(request):
+    if request.method == 'POST':
+        job_title = request.POST['job_title']
+        job_description = request.POST['job_description']
+        required_skill = request.POST['required_skill']
+        expected_duration = request.POST['expected_duration']
+        payment = request.POST['payment']
+        payment_type = request.POST['payment_type']
+
+        freelance_id = request.session['fid']
+        freelance = Freelance.objects.get(id=freelance_id)
+        freelance_job = FreelanceJobs(
+            job_title=job_title,
+            job_description=job_description,
+            required_skill=required_skill,
+            expected_duration=expected_duration,
+            payment=payment,
+            payment_type=payment_type,
+            freelance=freelance
+        )
+        freelance_job.save()
+
+        return HttpResponse("<script>alert('Freelance Job Posted Successfully');window.location='/posted-jobs-freelance';</script>")
+
+    return render(request, 'freelance_job_post.html')
+
+
+def posted_jobs_freelance(request):
+    freelance_id = request.session.get('fid')  # Safely get 'fid'
+    
+    if not freelance_id:
+        return HttpResponse("Freelancer ID not found in session", status=400)
+    
+    freelance = Freelance.objects.get(id=freelance_id)
+
+    print('======', freelance_id)
+    freelance_jobs = FreelanceJobs.objects.filter(freelance_id=freelance_id)
+
+    filters = {
+        'job_title__icontains': request.GET.get('job_title', '').strip(),
+        'required_skill__icontains': request.GET.get('required_skill', '').strip(),
+        'payment_type': request.GET.get('payment_type', '').strip()
+    }
+
+    filters = {key: value for key, value in filters.items() if value}
+
+    if filters:
+        freelance_jobs = freelance_jobs.filter(**filters)
+
+    return render(request, 'posted_jobs_freelance.html', {'freelance_jobs': freelance_jobs,'freelance':freelance})
+
+
+
+
+
+
+def freelance_profile(request):
+    
+    a=Freelance.objects.filter(pk=request.session['fid'])
+    
+    return render(request,'freelance_profile.html',{'a':a})
+
+
+
+
+
+
+
+def parttime_reg(request):
+    a=department.objects.all()
+    if request.method=='POST':
+        name=request.POST['name']
+        email=request.POST['email']
+        phone=request.POST['phone']
+        company=request.POST['company']
+        location = request.POST['location']
+        uname=request.POST['uname']
+        psw=request.POST['psw']
+        
+        tp=log.objects.filter(username=uname)
+        
+        if tp:
+            return HttpResponse("<script>alert('Username Already Exist');window.location='/parttime-reg'</script>")
+        else:
+            z=log(username=uname,password=psw,usertype='pending')
+            z.save()
+            
+            t=Parttime(name=name,phone=phone,email=email,company=company,location=location,login=z)
+            t.save()
+            return HttpResponse("<script>alert('Registered successfully');window.location='/login';</script>")
+ 
+  
+    return render(request,'partime_register.html',{'a':a})
+
+
+
+
+def parttime_profile(request):
+    
+    a=Parttime.objects.filter(pk=request.session['pid'])
+    
+    return render(request,'partime_profile.html',{'a':a})
+
+
+
+
+def parttime_job_post(request):
+    if request.method == 'POST':
+        job_title = request.POST['job_title']
+        job_description = request.POST['job_description']
+        working_hours = request.POST['working_hours']
+        payment = request.POST['payment']
+        shift_timing = request.POST['shift_timing']
+
+        parttime_id = request.session['pid']
+        parttime = Parttime.objects.get(id=parttime_id)
+        parttime_job = ParttimeJobs(
+            job_title=job_title,
+            job_description=job_description,
+            working_hours=working_hours,
+            payment=payment,
+            shift_timing=shift_timing,
+            parttime=parttime
+        )
+        parttime_job.save()
+
+        return HttpResponse("<script>alert('Freelance Job Posted Successfully');window.location='/posted-jobs-parttime';</script>")
+
+    return render(request, 'parttime_job_post.html')
+
+
+
+
+def posted_jobs_parttime(request):
+    parttime_id = request.session['pid']
+    parttime_jobs = ParttimeJobs.objects.filter(parttime_id=parttime_id)
+
+    filters = {
+        'job_title__icontains': request.GET.get('job_title', '').strip(),
+        'shift_timing': request.GET.get('shift_timing', '').strip()
+    }
+
+    filters = {key: value for key, value in filters.items() if value}
+
+    if filters:
+        parttime_jobs = parttime_jobs.filter(**filters)
+
+    return render(request, 'posted_jobs_parttime.html', {'parttime_jobs': parttime_jobs})
+
+
+
+
+
+
+
+
 def stu_profile(request):
     
     a=student.objects.filter(pk=request.session['sid'])
@@ -269,6 +541,7 @@ def stu_companies(request):
 
 def stu_complaint(request):
     a=Complaint.objects.filter(login_id=request.session['login_id'])
+    print('====',request.session['sid'])
     if request.method=='POST':
         com=request.POST['com']
         
@@ -278,6 +551,51 @@ def stu_complaint(request):
         
 
     return render(request,'student_complaint.html',{'a':a})
+
+
+def stu_freelance_jobs(request):
+    freelance_jobs = FreelanceJobs.objects.all()
+
+    filters = {
+        'job_title__icontains': request.GET.get('job_title', '').strip(),
+        'required_skill__icontains': request.GET.get('required_skill', '').strip(),
+        'payment_type': request.GET.get('payment_type', '').strip()
+    }
+
+    filters = {key: value for key, value in filters.items() if value}
+
+    if filters:
+        freelance_jobs = freelance_jobs.filter(**filters)
+
+    return render(request, 'posted_jobs_freelance.html', {'freelance_jobs': freelance_jobs,'page':'freelance_jobs'})
+
+
+
+def stu_parttime_jobs(request):
+    parttime_job_post_jobs = ParttimeJobs.objects.all()
+
+    filters = {
+        'job_title__icontains': request.GET.get('job_title', '').strip(),
+        'shift_timing': request.GET.get('shift_timing', '').strip()
+    }
+
+    filters = {key: value for key, value in filters.items() if value}
+
+    if filters:
+        parttime_job_post_jobs = parttime_job_post_jobs.filter(**filters)
+
+    return render(request, 'student_parttime_jobs.html', {'parttime_job_post_jobs': parttime_job_post_jobs})
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -392,7 +710,27 @@ def std_request(request,id):
             return HttpResponse("<script>alert('Invalid Request');window.location='/stu_companies';</script>")
         
         
-    
+
+def std_freelance_request(request,id):
+    try:
+        
+        z=Freelance_application_request.objects.filter(job_id=id,application_status='pending')
+        if z:
+            return HttpResponse("<script>alert('Already Applied');window.location='/stu_freelance_jobs';</script>")
+        else:
+            a=Freelance_application_request(application_status='pending',job_id=id,student_id=request.session['sid'])
+            a.save()
+            return HttpResponse("<script>alert('Applied successfully');window.location='/stu_freelance_jobs';</script>")
+            
+            
+    except:
+            return HttpResponse("<script>alert('Invalid Request');window.location='/stu_freelance_jobs';</script>")
+
+
+
+
+
+
 
 def accept_req(request,id):
     a=application_request.objects.get(pk=id)
@@ -408,8 +746,55 @@ def reject_req(request,id):
 
 
 
+def accept_freelance_req(request, id):
+    a = Freelance_application_request.objects.get(pk=id)
+    a.application_status = 'selected'
+    a.save()
+    idd = a.job.id
+    return HttpResponse(f"<script>alert('Accepted successfully');window.location='/view-freelance-requests/{idd}';</script>")
 
+def reject_freelance_req(request, id):
+    a = Freelance_application_request.objects.get(pk=id)
+    a.application_status = 'rejected'
+    a.save()
+    idd = a.job.id  # Get the job ID for redirection
+    return HttpResponse(f"<script>alert('Rejected successfully');window.location='/view-freelance-requests/{idd}';</script>")
 
 
 
    
+def accept_parttime_req(request, id):
+    a = Parttime_application_request.objects.get(pk=id)
+    a.application_status = 'selected'
+    a.save()
+    idd = a.job.id
+    return HttpResponse(f"<script>alert('Accepted successfully');window.location='/view-parttime-requests/{idd}';</script>")
+
+def reject_parttime_req(request, id):
+    a = Parttime_application_request.objects.get(pk=id)
+    a.application_status = 'rejected'
+    a.save()
+    idd = a.job.id  # Get the job ID for redirection
+    return HttpResponse(f"<script>alert('Rejected successfully');window.location='/view-parttime-requests/{idd}';</script>")
+
+
+
+
+
+
+
+
+def std_parttime_request(request,id):
+    try:
+        
+        z=Parttime_application_request.objects.filter(job_id=id,application_status='pending')
+        if z:
+            return HttpResponse("<script>alert('Already Applied');window.location='/stu_parttime_jobs';</script>")
+        else:
+            a=Parttime_application_request(application_status='pending',job_id=id,student_id=request.session['sid'])
+            a.save()
+            return HttpResponse("<script>alert('Applied successfully');window.location='/stu_parttime_jobs';</script>")
+            
+            
+    except:
+            return HttpResponse("<script>alert('Invalid Request');window.location='/stu_parttime_jobs';</script>")

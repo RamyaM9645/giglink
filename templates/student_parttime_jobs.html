@@ -1,0 +1,60 @@
+{% include 'student_header.html'%}
+{% load static %}
+
+<center>
+    <h1 style="margin-top: 100px;">Posted Jobs</h1>
+
+    <!-- Filtration Form -->
+    <form method="GET" style="margin-bottom: 20px;">
+        <input type="text" name="job_title" placeholder="Job Title" class="form-control"
+               value="{{ request.GET.job_title }}" style="width: 200px; display: inline-block;">
+        
+        
+        <select name="shift_timing" class="form-control" style="width: 200px; display: inline-block;">
+            <option value="">All Shift</option>
+            <option value="Morning" {% if request.GET.payment_type == "Morning" %}selected{% endif %}>Morning</option>
+            <option value="Evening" {% if request.GET.payment_type == "Evening" %}selected{% endif %}>Evening</option>
+            <option value="Night" {% if request.GET.payment_type == "Night" %}selected{% endif %}>Night</option>
+            <option value="Flexible" {% if request.GET.payment_type == "Flexible" %}selected{% endif %}>Flexible</option>
+        </select>
+
+        <button type="submit" class="btn btn-primary">Filter</button>
+        <a href="/stu_parttime_jobs" class="btn btn-secondary">Reset</a>
+    </form>
+
+    {% if parttime_job_post_jobs %}
+    <table class="table" style="margin-top: 20px;">
+        <thead class="table-dark">
+        <tr>
+            <th>Job Title</th>
+            <th>Job Description</th>
+            <th>Working Hours</th>
+            <th>Payment</th>
+            <th>Shift Timing</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for job in parttime_job_post_jobs %}
+        <tr>
+            <td>{{ job.job_title }}</td>
+            <td>{{ job.job_description }}</td>
+            <td>{{ job.working_hours }}</td>
+            <td>{{ job.payment }}</td>
+            <td>{{ job.shift_timing }}</td>
+            <td><a href="/std_parttime_request/{{ job.pk }}">Apply</a></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No jobs found.</p>
+    {% endif %}
+</center>
+
+{% include 'footer.html' %}
+
+<style>
+    th, td {
+        text-align: center;
+    }
+</style>
